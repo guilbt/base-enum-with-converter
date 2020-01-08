@@ -3,7 +3,7 @@ The examples is only to show how the classes can be used, but won't propelly wor
 
 So, why i did this?
 
-I got in a big Spring + JPA project where for every enum that would not have default values (0, 1, 2, 3, ...) there would be a new Class with basically the same code.
+I got in a big Spring + JPA project in which for every new enum in a Data Class that would not use default values (0, 1, 2, 3, ...) there would be a need for a new Class implementing javax's AttributeConverter.
 
 ```
 @Converter
@@ -12,14 +12,14 @@ public class XYZConversor implements AttributeConverter<XYZ, Integer> {
     public Integer convertToDatabaseColumn(XYZ attribute) {
         if (attribute == null)
             return null;
-        return attribute.getId();
+        return attribute.getValue();
     }
 
     @Override
     public XYZ convertToEntityAttribute(Integer dbData) {
         if (dbData == null)
             return null;
-        return VtexSite.fromInt(dbData);
+        return XYZ.fromInt(dbData);
     }
 }
 
@@ -27,6 +27,6 @@ public class XYZConversor implements AttributeConverter<XYZ, Integer> {
 
 So i thought to myself, wouldn't it be cool to be able to generalize this conversion?
 
-And this is what i came up with :).
+And this repository's code is what i came up with :).
 
-If anyone had a better idea, i'm open for lectures.	
+If anyone had a better solution for this problem, i'm completely open for lectures.	
